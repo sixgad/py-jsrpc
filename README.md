@@ -3,6 +3,9 @@ python实现一套轻量、协程异步、websocket远程调用服务，js逆向
 
 - [x] 将back_socket_server合并到web_server一起启动
 
+安装依赖：
+
+> pip install -r requirements.txt
 
 启动步骤：
 
