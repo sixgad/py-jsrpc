@@ -35,6 +35,7 @@ def start_loop(loop):
 if __name__ == '__main__':
     new_loop = asyncio.new_event_loop()  # 在当前线程下创建事件循环，（未启用），在start_loop里面启动它
     t = threading.Thread(target=start_loop, args=(new_loop,))  # 通过当前线程开启新的线程去启动事件循环
+    t.daemon = True
     t.start()
     asyncio.run_coroutine_threadsafe(ws_run(), new_loop)
     app.run(debug=False, host="127.0.0.1", port=5000)
