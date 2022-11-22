@@ -187,15 +187,15 @@ JsClient.prototype.registerAction = function (action, handler) {
     return this;
 };
 function guid() {
-        function S4() {
-              return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        }
-        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
 
 //demo
-var client = new JsClient("ws://localhost:6789/register?group=ws-group&clientId="+guid());
+var client = new JsClient("ws://localhost:6789/register?group=ws-group&clientId=" + guid());
 //获取服务器时间
-client.registerAction("clientTime",function(request, resolve,reject ){
-    resolve(""+new Date());
+client.registerAction("clientTime", function (request, resolve, reject) {
+    resolve("" + new Date());
 })

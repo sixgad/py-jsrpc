@@ -13,27 +13,30 @@ from loguru import logger
 # 实现一对多连接
 USERS = {}
 APIUSERS = {}
+
+
 async def register(websocket, path):
-    #web clientjs 连接注册
+    # web clientjs 连接注册
     if path and path.startswith('/register'):
-        group = re.findall('\?group=(.*?)&',path)[0]
-        clientId = re.findall('&clientId=(.*)',path)[0]
+        group = re.findall(r'\?group=(.*?)&', path)[0]
+        clientId = re.findall('&clientId=(.*)', path)[0]
         if group not in USERS:
             USERS[group] = {}
         USERS[group][clientId] = websocket
         logger.info("USERS register success")
         logger.info(USERS)
-        return "webclient",group,clientId
+        return "webclient", group, clientId
     if path and path.startswith('/invoke'):
-        group = re.findall('\?group=(.*)',path)[0]
+        group = re.findall(r'\?group=(.*)', path)[0]
         clientId = str(uuid.uuid4())
         if group not in APIUSERS:
             APIUSERS[group] = {}
         APIUSERS[group][clientId] = websocket
         logger.info("APIUSERS register success")
         logger.info(USERS)
-        return "apiclient",group,clientId
+        return "apiclient", group, clientId
     return None, None, None
+
 
 async def unregister(role, group, clientId):
     if role == 'webclient':
@@ -60,7 +63,7 @@ async def counter(websocket, path):
                 message['__uuid_seq__'] = clientId
                 await USERS[group][random.choice(list(USERS[group]))].send(json.dumps(message))
 
-            #接收到web js client发来的消息时,需要由server将message send到api接口client
+            # 接收到web js client发来的消息时,需要由server将message send到api接口client
             if "status" in message and role == 'webclient':
                 apiclient = message['__uuid_seq__']
                 message.pop("__uuid_seq__", None)
@@ -68,7 +71,8 @@ async def counter(websocket, path):
 
     finally:
         await unregister(role, group, clientId)
+
+
 async def ws_run():
     logger.info("ws run")
-    asyncio.get_event_loop().run_until_complete(websockets.serve(counter, 'localhost', 6789))
-    # asyncio.get_event_loop().run_forever()
+    await websockets.serve(counter, 'localhost', 6789)
