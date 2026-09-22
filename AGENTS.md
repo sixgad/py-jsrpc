@@ -31,7 +31,7 @@
 ## 常用命令
 
 - `uv sync`: 安装运行 + 开发依赖到 `.venv`
-- `uv run jsrpc-server`: 单进程启动 HTTP+WS；`JSRPC_HTTP_HOST/JSRPC_HTTP_PORT/JSRPC_WS_HOST/JSRPC_WS_PORT` 可覆盖，默认 `127.0.0.1:5000` 与 `127.0.0.1:6789`
+- `uv run jsrpc-server`: 单进程启动 HTTP+WS；`JSRPC_HTTP_HOST/JSRPC_HTTP_PORT/JSRPC_WS_HOST/JSRPC_WS_PORT` 可覆盖，默认 `127.0.0.1:5000` 与 `localhost:6789`（v4+v6 双栈，原因见陷阱章）
 - `uv run pytest`: 全量单元 + 端到端测试，无需手工启动服务
 
 ## 禁止事项
