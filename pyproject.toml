@@ -7,7 +7,8 @@ license = "MIT"
 requires-python = ">=3.10"
 
 dependencies = [
-    "sanic>=25.3",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
     "websockets>=14",
     "loguru>=0.7",
 ]
