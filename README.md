@@ -23,7 +23,7 @@ python实现一套轻量、协程异步、websocket远程调用服务，js逆向
 | --- | --- |
 | `JSRPC_HTTP_HOST` | `127.0.0.1` |
 | `JSRPC_HTTP_PORT` | `5000` |
-| `JSRPC_WS_HOST` | `127.0.0.1` |
+| `JSRPC_WS_HOST` | `localhost`（v4+v6 双栈监听，浏览器 `ws://localhost` 依赖 ::1） |
 | `JSRPC_WS_PORT` | `6789` |
 
 ## 使用步骤

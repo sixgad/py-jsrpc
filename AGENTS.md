@@ -50,5 +50,6 @@
 
 - uvicorn `http="auto"` 会自动优先加载环境里存在的 `httptools`，而 httptools 0.8.0 在 Python 3.14 下收下 TCP 请求却永不解析（无任何报错、HTTP 响应为零）；入口必须显式 `http="h11"`。uvicorn `timeout_graceful_shutdown` 默认 None（无限等在途请求），必须显式设限时（现 10s），否则 Ctrl+C 关机又可被拖住；证据：`src/jsrpc/main.py` 注释与 `tests/test_shutdown.py`
 - `client.js` 的 clientId 每次页面加载生成一次、断线重连复用；注册表注销必须按连接身份校验，否则旧连接迟到的注销会误删重连后的新注册、该组静默不可用；证据：`tests/test_registry.py::test_stale_unregister_does_not_evict_reconnected_client`
+- WS 默认监听必须保持 `localhost`（而非 `127.0.0.1` 字面量）：asyncio 对 `localhost` 解析全部地址、v4+v6 双栈监听；浏览器对 `ws://localhost` 优先尝试 `::1`，单栈 v4 绑定会让浏览器静默连不上且服务端零日志（本仓库重构时真实踩过，Python 测试客户端走 v4 无法暴露此问题）；证据：`src/jsrpc/config.py` 注释
 - `websockets>=14` 已移除旧式双参 handler `(websocket, path)` 签名；单参签名、路径从 `ws.request.path` 解析；证据：`src/jsrpc/ws_server.py` 头注释
 - 本机仓库 `core.autocrlf=true`，CRLF 行尾会让文本在肉眼 diff 下看似相同或不同；“文件逐字节一致”的结论必须用 `cmp`/md5，不能靠打印比对；证据：`git config core.autocrlf`

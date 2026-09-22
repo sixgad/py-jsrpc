@@ -35,6 +35,9 @@ class Config:
         return cls(
             http_host=_env_str("JSRPC_HTTP_HOST", "127.0.0.1"),
             http_port=_env_int("JSRPC_HTTP_PORT", 5000),
-            ws_host=_env_str("JSRPC_WS_HOST", "127.0.0.1"),
+            # WS 默认 localhost：asyncio 解析全部地址、v4+v6 双栈监听。
+            # 浏览器对 ws://localhost 优先尝试 ::1，若只绑 127.0.0.1 会静默连不上
+            # （迁移前旧代码即绑定 localhost，勿改回单栈字面量）。
+            ws_host=_env_str("JSRPC_WS_HOST", "localhost"),
             ws_port=_env_int("JSRPC_WS_PORT", 6789),
         )
